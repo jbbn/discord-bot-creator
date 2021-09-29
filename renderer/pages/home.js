@@ -45,25 +45,19 @@ export default function Dashboard() {
           <div animation="border" />
         </div>
       ) : (
-        <div className="mt-4">
-          <div className="items-stretch">
+        <div className="px-3">
+          <div className="flex flex-row w-full gap-3 my-4">
+            <button type="submit" onClick={createBot}>
+              Create new bot
+            </button>
+            <button onClick={pickFolder}>Add existing Bot</button>
+            <Link href="/login">
+              <button className="ml-auto">Login</button>
+            </Link>
+          </div>
+          <div className="grid grid-flow-row grid-cols-2 gap-5">
             {folders?.[0] &&
-              folders.map((folder) => (
-                <div key={folder} md={6}>
-                  <Folder folder={folder} />
-                </div>
-              ))}
-            <form>
-              <button type="submit" onClick={createBot} className="mx-3 mt-3">
-                Create new bot
-              </button>
-              <button onClick={pickFolder} className="mt-3">
-                Add Bot
-              </button>
-              <Link href="/login">
-                <button className="mt-3 ml-2">Login</button>
-              </Link>
-            </form>
+              folders.map((folder) => <Folder folder={folder} key={folder} />)}
           </div>
         </div>
       )}
