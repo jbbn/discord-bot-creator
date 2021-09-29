@@ -4,6 +4,7 @@ import CommandView from "./command/CommandView";
 import { useDashboardContext } from "./DashboardContext";
 import ActionForm from "./actions/ActionForm";
 import LogView from "./log/LogView";
+import SettingsModal from "./settings/SettingsModal";
 
 export default function DashboardWindow() {
   // Component Controls
@@ -24,6 +25,8 @@ export default function DashboardWindow() {
               return <CommandView command={handler} />;
             case "logs":
               return <LogView />;
+            case "settings":
+              return <SettingsModal />;
           }
         })()}
         <ActionForm
