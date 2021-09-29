@@ -1,31 +1,14 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import electron from "electron";
-import { useRouter } from "next/router";
-import path from "path";
 import Link from "next/link";
+import Folder from "../components/home/Folder/Item";
 
 const ipcRenderer = electron.ipcRenderer || false;
 
 export default function Dashboard() {
   const [folders, setFolders] = useState("");
-  const [isOpeningFolder, setIsOpeningFolder] = useState("");
   const isValidating = false;
-  const router = useRouter();
-
-  // Can be used to create a bot
-  const setSettings = (folder) => (e) => {
-    e.preventDefault();
-    console.log(folder);
-    window._folder = folder;
-    setIsOpeningFolder(folder);
-    ipcRenderer.send("chooseDirectory", folder);
-    ipcRenderer.once("chooseDirectory", () => {
-      console.log("Response arrived for sure");
-      router.push(`/dashboard`);
-      setIsOpeningFolder("");
-    });
-  };
 
   function pickFolder() {
     ipcRenderer.send("directoryDialog");
@@ -52,40 +35,26 @@ export default function Dashboard() {
     ipcRenderer.send("directoryDialog");
   };
 
-  const getName = (folder) => {
-    folder = folder || "";
-    return folder.split(path.sep).pop();
-  };
-
   return (
     <>
       <Head>
         <title>DBC | Dashboard</title>
       </Head>
       {isValidating ? (
-        <div className="d-flex align-items-center justify-content-center">
+        <div className="flex items-center justify-center">
           <div animation="border" />
         </div>
       ) : (
         <div className="mt-4">
-          <div className="align-items-stretch">
+          <div className="items-stretch">
             {folders?.[0] &&
               folders.map((folder) => (
                 <div key={folder} md={6}>
-                  <div className="m-3 p-3">
-                    <h3 className="mb-4">{getName(folder)}</h3>
-                    <p className="mb-2 text-muted">{folder}</p>
-                    <button onClick={setSettings(folder)} variant="secondary">
-                      Open{" "}
-                      {isOpeningFolder === folder ? (
-                        <div animation="border" size="sm" />
-                      ) : null}
-                    </button>
-                  </div>
+                  <Folder folder={folder} />
                 </div>
               ))}
             <form>
-              <button type="submit" onClick={createBot} className="mt-3 mx-3">
+              <button type="submit" onClick={createBot} className="mx-3 mt-3">
                 Create new bot
               </button>
               <button onClick={pickFolder} className="mt-3">
