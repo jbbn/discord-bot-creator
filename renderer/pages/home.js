@@ -1,17 +1,9 @@
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Spinner,
-} from "react-bootstrap";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import electron from "electron";
 import { useRouter } from "next/router";
 import path from "path";
+import Link from "next/link";
 
 const ipcRenderer = electron.ipcRenderer || false;
 
@@ -71,36 +63,40 @@ export default function Dashboard() {
         <title>DBC | Dashboard</title>
       </Head>
       {isValidating ? (
-        <Container className="d-flex align-items-center justify-content-center">
-          <Spinner animation="border" />
-        </Container>
+        <div className="d-flex align-items-center justify-content-center">
+          <div animation="border" />
+        </div>
       ) : (
-        <Container className="mt-4">
-          <Row className="align-items-stretch">
+        <div className="mt-4">
+          <div className="align-items-stretch">
             {folders?.[0] &&
               folders.map((folder) => (
-                <Col key={folder} md={6}>
-                  <Card className="m-3 p-3">
+                <div key={folder} md={6}>
+                  <div className="m-3 p-3">
                     <h3 className="mb-4">{getName(folder)}</h3>
                     <p className="mb-2 text-muted">{folder}</p>
-                    <Button onClick={setSettings(folder)} variant="secondary">
+                    <button onClick={setSettings(folder)} variant="secondary">
                       Open{" "}
-                      {isOpeningFolder ===
-                        folder(<Spinner animation="border" size="sm" />)}
-                    </Button>
-                  </Card>
-                </Col>
+                      {isOpeningFolder === folder ? (
+                        <div animation="border" size="sm" />
+                      ) : null}
+                    </button>
+                  </div>
+                </div>
               ))}
-            <Form>
-              <Button type="submit" onClick={createBot} className="mt-3 mx-3">
+            <form>
+              <button type="submit" onClick={createBot} className="mt-3 mx-3">
                 Create new bot
-              </Button>
-              <Button onClick={pickFolder} className="mt-3">
+              </button>
+              <button onClick={pickFolder} className="mt-3">
                 Add Bot
-              </Button>
-            </Form>
-          </Row>
-        </Container>
+              </button>
+              <Link href="/login">
+                <button className="mt-3 ml-2">Login</button>
+              </Link>
+            </form>
+          </div>
+        </div>
       )}
     </>
   );

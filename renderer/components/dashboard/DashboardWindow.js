@@ -1,4 +1,4 @@
-import { Col, Row, Tab } from "react-bootstrap";
+import { Tab } from "react-bootstrap";
 import Sidebar from "./sidebar/index";
 import EventView from "./event/EventView";
 import CommandView from "./command/CommandView";
@@ -15,12 +15,9 @@ export default function DashboardWindow() {
 
   return (
     <Tab.Container>
-      <Row className="mx-0">
+      <div className="d-grid grid h-screen grid-cols-3">
         <Sidebar />
-        <Col
-          className="p-4 command-view overflow-auto"
-          style={{ maxHeight: "100vh" }}
-        >
+        <div className="overflow-auto h-screen flex flex-col pt-4">
           {(() => {
             switch (mode) {
               case "event":
@@ -36,8 +33,8 @@ export default function DashboardWindow() {
             onHide={hideActionModal}
             isEvent={isEvent}
           />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </Tab.Container>
   );
 }

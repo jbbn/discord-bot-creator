@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.3",
-    "bootstrap": "^5.0.2",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.0",
     "eval": "^0.1.6",
@@ -20,19 +19,20 @@
     "next-auth": "^3.28.0",
     "parse-function-string": "^0.1.1",
     "react-beautiful-dnd": "^13.1.0",
-    "react-bootstrap": "^2.0.0-beta.4",
-    "react-bootstrap-typeahead": "^5.2.0",
     "sass": "^1.37.0",
     "serialize-javascript": "^6.0.0",
     "steam-user": "^4.19.12",
     "youtubei": "^0.0.1-rc.20"
   },
   "devDependencies": {
+    "autoprefixer": "^10.3.6",
     "electron": "^15.0.0-alpha.5",
     "electron-builder": "^22.11.7",
     "next": "^11.0.1",
     "nextron": "^7.0.0",
+    "postcss": "^8.3.8",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "tailwindcss": "^2.2.16"
   }
 }
