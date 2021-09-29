@@ -1,5 +1,3 @@
-import { Badge } from "react-bootstrap";
-import { Typeahead } from "react-bootstrap-typeahead";
 import { useDashboardContext } from "../DashboardContext";
 
 export default function ActionDropdown({ name, className, create }) {
@@ -21,7 +19,8 @@ export default function ActionDropdown({ name, className, create }) {
       updateAction(newAction, false);
     }
   };
-
+  return null;
+  /*
   return (
     <Typeahead
       filterBy={filterByFields}
@@ -49,5 +48,5 @@ export default function ActionDropdown({ name, className, create }) {
         </div>
       )}
     />
-  );
+  );*/
 }

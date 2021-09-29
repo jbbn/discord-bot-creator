@@ -1,5 +1,4 @@
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Button, Col, Form, Row } from "react-bootstrap";
 import { useDashboardContext } from "../DashboardContext";
 import ActionDropdown from "./ActionDropdown";
 import ActionItem from "./ActionListItem";
@@ -17,9 +16,9 @@ export default function ActionList({ Form: ActionForm }) {
   };
 
   return (
-    <Row>
-      <Col sm="8" className="mx-2 mb-3 command-form">
-        <Form.Label>Actions</Form.Label>
+    <div>
+      <div className="mx-2 mb-3 command-form">
+        <label>Actions</label>
         <br />
         <ActionDropdown
           name={action.name || ""}
@@ -54,7 +53,7 @@ export default function ActionList({ Form: ActionForm }) {
             )}
           </Droppable>
         </DragDropContext>
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }

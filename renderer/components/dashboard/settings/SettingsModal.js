@@ -1,5 +1,4 @@
 import { ipcRenderer } from "electron";
-import { Button, Form, FormControl, Modal } from "react-bootstrap";
 import useSettings from "../../../lib/useSettings";
 
 export default function SettingsModal(props) {
@@ -30,34 +29,30 @@ export default function SettingsModal(props) {
   };
 
   return (
-    <Modal
+    <div
       show={props.show}
       onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Settings</Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={{ maxHeight: "80vh" }} className="overflow-auto">
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Label>Prefix</Form.Label>
-            <FormControl
-              type="text"
-              onChange={changePrefix}
-              value={settings?.tag}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Token</Form.Label>
-            <FormControl
+      <div closebutton>
+        <div id="contained-modal-title-vcenter">Settings</div>
+      </div>
+      <div style={{ maxHeight: "80vh" }} className="overflow-auto">
+        <form>
+          <div className="mb-3">
+            <div>Prefix</div>
+            <input type="text" onChange={changePrefix} value={settings?.tag} />
+          </div>
+          <div className="mb-3">
+            <div>Token</div>
+            <input
               type="text"
               value={settings?.token || ""}
               onChange={changeToken}
               placeholder="e.g.: NzI3ODcyOTg0NTc1OTAxNzg2.XvyKig.4eiNtg8CGOkT1Www5sRngSLSJ30"
             />
-            <Form.Text>
+            <div>
               Get your token from the{" "}
               <a
                 target="_blank"
@@ -65,24 +60,24 @@ export default function SettingsModal(props) {
               >
                 bot dashboard
               </a>
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Separator</Form.Label>
-            <FormControl
+            </div>
+          </div>
+          <div className="mb-3">
+            <div>Separator</div>
+            <input
               type="text"
               value={settings?.separator || ""}
               onChange={changeToken}
               placeholder="\\s+"
             />
-            <Form.Text>
+            <div>
               <a
                 target="_blank"
                 href="https://discord.com/developers/applications/"
               ></a>
-            </Form.Text>
-          </Form.Group>
-          <Form.Check
+            </div>
+          </div>
+          <input
             type="switch"
             label="Run Bot on Save"
             checked={!!settings?.autoRestart}
@@ -91,7 +86,7 @@ export default function SettingsModal(props) {
             }
             className="mb-3"
           />
-          <Form.Check
+          <input
             type="switch"
             label="Case Sensitive"
             checked={settings?.checked === "true" || false}
@@ -103,7 +98,7 @@ export default function SettingsModal(props) {
             }
             className="mb-3"
           />
-          <Form.Check
+          <input
             type="switch"
             label="Toggle Hints"
             checked={settings?.toggleHints !== false}
@@ -112,14 +107,14 @@ export default function SettingsModal(props) {
             }
             className="mb-3"
           />
-        </Form>
-      </Modal.Body>
-      <Modal.Footer className="d-flex flex-row justify-content-between">
-        <Button onClick={props.onHide}>Close</Button>
-        <Button onClick={saveSettings} variant="success" className="mt-3">
+        </form>
+      </div>
+      <div className="flex-row d-flex justify-content-between">
+        <button onClick={props.onHide}>Close</button>
+        <button onClick={saveSettings} variant="success" className="mt-3">
           Save
-        </Button>
-      </Modal.Footer>
-    </Modal>
+        </button>
+      </div>
+    </div>
   );
 }

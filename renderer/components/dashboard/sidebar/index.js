@@ -1,15 +1,4 @@
 import { useState } from "react";
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Form,
-  Nav,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
 import SidebarBotControls from "./SidebarBotControls";
 import SettingsModal from "../settings/SettingsModal";
 import { useDashboardContext } from "../DashboardContext";
@@ -19,13 +8,6 @@ import {
   TerminalIcon,
   CogIcon,
 } from "@heroicons/react/solid";
-
-const renderTooltip = (text) => (props) =>
-  (
-    <Tooltip id="tab-tooltip" {...props}>
-      {text}
-    </Tooltip>
-  );
 
 export default function Sidebar({ selected, setSelected }) {
   const [settingsShow, setSettingsShow] = useState(false);
@@ -45,61 +27,53 @@ export default function Sidebar({ selected, setSelected }) {
 
   return (
     <>
-      <div className="sidebar px-0 flex flex-row h-screen">
-        <Col className="navbar align-items-start nowrap">
-          <OverlayTrigger placement="auto" overlay={renderTooltip("Commands")}>
-            <div
-              className={mode === "command" ? "active" : ""}
-              onClick={setMode("command")}
-            >
-              <ChatAlt2Icon className="w-6" />
-            </div>
-          </OverlayTrigger>
-          <OverlayTrigger placement="auto" overlay={renderTooltip("Events")}>
-            <div
-              className={mode === "event" ? "active" : ""}
-              onClick={setMode("event")}
-            >
-              <LightningBoltIcon />
-            </div>
-          </OverlayTrigger>
-          <OverlayTrigger placement="auto" overlay={renderTooltip("Logs")}>
-            <div
-              className={mode === "logs" ? "active" : ""}
-              onClick={setMode("logs")}
-            >
-              <TerminalIcon />
-            </div>
-          </OverlayTrigger>
-          <OverlayTrigger placement="auto" overlay={renderTooltip("Settings")}>
-            <div onClick={() => setSettingsShow(true)} className="mt-auto">
-              <CogIcon />
-            </div>
-          </OverlayTrigger>
-        </Col>
-        <div className="px-0 h-screen max-h-screen flex flex-col">
-          <Card.Body className="px-2">
-            <Nav variant="pills" className="flex-column d-md-block d-none">
+      <div className="flex flex-row h-screen px-0 sidebar">
+        <div className="navbar align-items-start nowrap">
+          <div
+            className={mode === "command" ? "active" : ""}
+            onClick={setMode("command")}
+          >
+            <ChatAlt2Icon className="w-6 h-6" />
+          </div>
+          <div
+            className={mode === "event" ? "active" : ""}
+            onClick={setMode("event")}
+          >
+            <LightningBoltIcon />
+          </div>
+          <div
+            className={mode === "logs" ? "active" : ""}
+            onClick={setMode("logs")}
+          >
+            <TerminalIcon />
+          </div>
+          <div onClick={() => setSettingsShow(true)} className="mt-auto">
+            <CogIcon />
+          </div>
+        </div>
+        <div className="flex flex-col h-screen max-h-screen px-0">
+          <div className="px-2">
+            <div variant="pills" className="flex-column d-md-block d-none">
               {handlers.map((d, i) => (
-                <Nav.Item key={d?.name + "-" + i}>
-                  <Nav.Link
+                <div key={d?.name + "-" + i}>
+                  <div
                     eventKey={"nav-link-" + d?.name + "-" + i}
                     active={handlerIndex === i}
                     onClick={() => updateHandlerIndex(i)}
-                    className="flex flex-row justify-between items-center mb-2"
+                    className="flex flex-row items-center justify-between mb-2"
                   >
                     <span>{d?.name}</span>
                     {errors.filter((e) => e.handlerIndex === i).length ? (
-                      <Badge bg="danger" text="light">
+                      <div bg="danger" text="light">
                         {errors.filter((e) => e.handlerIndex === i).length}
-                      </Badge>
+                      </div>
                     ) : null}
-                  </Nav.Link>
-                </Nav.Item>
+                  </div>
+                </div>
               ))}
-            </Nav>
-            <Form.Group className="d-md-none">
-              <Form.Select
+            </div>
+            <div className="d-md-none">
+              <select
                 id="command"
                 value={selected}
                 onChange={(e) => updateHandlerIndex(e.target.value)}
@@ -113,17 +87,17 @@ export default function Sidebar({ selected, setSelected }) {
                     {c?.name}
                   </option>
                 ))}
-              </Form.Select>
-            </Form.Group>
-          </Card.Body>
-          <Card.Footer>
+              </select>
+            </div>
+          </div>
+          <div>
             <SidebarBotControls />
-          </Card.Footer>
-          <Card.Footer className="d-flex flex-row justify-content-between align-items-center flex-wrap gap-2">
-            <Button onClick={() => addHandler()} variant="secondary">
+          </div>
+          <div className="flex-row flex-wrap gap-2 d-flex justify-content-between align-items-center">
+            <button onClick={() => addHandler()} variant="secondary">
               Add Command
-            </Button>
-          </Card.Footer>
+            </button>
+          </div>
         </div>
       </div>
       <SettingsModal

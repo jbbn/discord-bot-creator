@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 import ActionForm from "../actions/ActionForm";
 import ActionList from "../actions/ActionList";
 import { useDashboardContext } from "../DashboardContext";
@@ -8,9 +7,9 @@ export default function CommandView() {
   const { handler } = useDashboardContext();
 
   return (
-    <Container>
+    <div>
       <CommandHeader command={handler} />
       <ActionList Form={ActionForm} />
-    </Container>
+    </div>
   );
 }

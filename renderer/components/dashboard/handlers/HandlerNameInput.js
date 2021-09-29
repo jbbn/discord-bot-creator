@@ -1,4 +1,3 @@
-import { FormControl, FloatingLabel } from "react-bootstrap";
 import { useDashboardContext } from "../DashboardContext";
 
 export default function HandlerNameInput(props) {
@@ -9,13 +8,13 @@ export default function HandlerNameInput(props) {
   };
 
   return (
-    <FloatingLabel controlId="floatingInputGrid" label="Name">
-      <FormControl
+    <label controlId="floatingInputGrid" label="Name">
+      <input
         type="text"
         defaultValue={handler.name}
         onChange={update}
         onBlur={update}
       />
-    </FloatingLabel>
+    </label>
   );
 }

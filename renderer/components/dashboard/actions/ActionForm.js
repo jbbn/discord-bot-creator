@@ -1,4 +1,3 @@
-import { Button, Modal } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import { useDashboardContext } from "../DashboardContext";
 import { evalHTML, evalInit, evalListener } from "../../../lib/runInContext";
@@ -69,7 +68,8 @@ export default function ActionForm({ show, isEvent, onHide }) {
     content.current = null;
     onHide();
   };
-
+  return null;
+  /*
   return (
     <Modal
       show={show}
@@ -85,12 +85,12 @@ export default function ActionForm({ show, isEvent, onHide }) {
       <Modal.Body style={{ height: "60vh", overflowY: "scroll" }}>
         <div dangerouslySetInnerHTML={{ __html: state.html }} ref={content} />
       </Modal.Body>
-      <Modal.Footer className="d-flex flex-row justify-content-between">
+      <Modal.Footer className="flex-row d-flex justify-content-between">
         <Button onClick={hide}>Close</Button>
         <Button onClick={hide} variant="success">
           Save
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  );*/
 }

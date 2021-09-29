@@ -1,13 +1,7 @@
-import { Button, Spinner } from "react-bootstrap";
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
 import useSettings from "../../../lib/useSettings";
-import {
-  PauseIcon,
-  PlayIcon,
-  SaveIcon,
-  StopIcon,
-} from "@heroicons/react/solid";
+import { PlayIcon, SaveIcon, StopIcon } from "@heroicons/react/solid";
 
 export default function SidebarBotControls() {
   const [state, setState] = useState({});
@@ -75,15 +69,15 @@ export default function SidebarBotControls() {
   };
 
   if (!settings?.token) {
-    return <Button onClick={() => setSettingsShow(true)}>Add token</Button>;
+    return <button onClick={() => setSettingsShow(true)}>Add token</button>;
   }
 
   return (
-    <div className="bot-controls d-flex flex-row justify-content-between align-items-center flex-wrap gap-2">
+    <div className="flex-row flex-wrap gap-2 bot-controls d-flex justify-content-between align-items-center">
       {state.isRunning ? (
         <>
           {state.isSaving ? (
-            <Spinner
+            <div
               className="mx-1"
               style={{ height: "1.5rem", width: "1.5rem", margin: "0.25rem" }}
               animation="grow"
@@ -95,7 +89,7 @@ export default function SidebarBotControls() {
             </div>
           )}
           {state.isStopping ? (
-            <Spinner className="mx-1" />
+            <div className="mx-1" />
           ) : (
             <div onClick={stop}>
               <StopIcon className="danger" />
@@ -103,7 +97,7 @@ export default function SidebarBotControls() {
           )}
         </>
       ) : state.isStarting ? (
-        <Spinner
+        <div
           style={{ height: "1.5rem", width: "1.5rem", margin: "0.25rem" }}
           animation="grow"
           variant="primary"

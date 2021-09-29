@@ -1,6 +1,5 @@
 import { ipcRenderer } from "electron";
 import { useEffect, useState } from "react";
-import { Button, Card, Container } from "react-bootstrap";
 
 export default function LogView() {
   const [logs, setLogs] = useState([]);
@@ -27,22 +26,22 @@ export default function LogView() {
   };
 
   return (
-    <Container className="d-flex flex-column mt-auto h-100">
+    <div className="mt-auto d-flex flex-column h-100">
       <div className="mt-auto">
         {logs.map((log, i) => (
-          <Card key={i} className="p-3 mb-2 align-self-end">
+          <div key={i} className="p-3 mb-2 align-self-end">
             {log}
-          </Card>
+          </div>
         ))}
       </div>
-      <Button
+      <button
         bsStyle="primary"
         bsSize="large"
         onClick={onClear}
         className="mt-3"
       >
         Clear
-      </Button>
-    </Container>
+      </button>
+    </div>
   );
 }
