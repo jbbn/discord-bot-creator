@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { DashboardProvider } from "../components/dashboard/DashboardContext";
 import DashboardWindow from "../components/dashboard/DashboardWindow";
+import { ModeProvider } from "../components/dashboard/ModeContext";
 
 export default function Dashboard() {
   return (
@@ -8,9 +9,11 @@ export default function Dashboard() {
       <Head>
         <title>Dashboard - Discord Bot Creator</title>
       </Head>
-      <DashboardProvider>
-        <DashboardWindow />
-      </DashboardProvider>
+      <ModeProvider>
+        <DashboardProvider>
+          <DashboardWindow />
+        </DashboardProvider>
+      </ModeProvider>
     </>
   );
 }

@@ -1,24 +1,77 @@
 import { ipcRenderer } from "electron";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import useActions from "../../lib/useActions";
 import useCommands from "../../lib/useCommands";
 import useEvents from "../../lib/useEvents";
 import useSettings from "../../lib/useSettings";
 
-const DashboardContext = createContext(null);
+type Modes = "logs" | "settings" | "event" | "command";
+type Action = {
+  name: string;
+};
+
+type Handler = {
+  name: string;
+  actions: Action[];
+};
+
+type Dashboard = {
+  events: Handler[];
+  commands: Handler[];
+  actionSchemas: [];
+  mode: Modes;
+  actionModalVisible: boolean;
+  handlerIndex: number;
+  actionIndex: number;
+  errors: any[];
+  handlers: Handler[];
+};
+type ReorderAction = (from: number, to: number) => void;
+type UpdateMode = (mode: Modes) => void;
+type UpdateHandlerIndex = (index: number) => void;
+type RemoveAction = (index: number) => void;
+type AddHandler = (handler?: Handler) => void;
+
+type Functions = {
+  reorderAction?: ReorderAction;
+  updateMode?: UpdateMode;
+  updateHandlerIndex?: UpdateHandlerIndex;
+  removeAction?: RemoveAction;
+  addHandler?: AddHandler;
+};
+
+type DashboardContextValue = Dashboard & Functions;
+
+export const DashboardContext = createContext<DashboardContextValue>({
+  events: [],
+  commands: [],
+  actionSchemas: [],
+  mode: "command",
+  actionModalVisible: false,
+  handlerIndex: 0,
+  actionIndex: 0,
+  errors: [],
+  handlers: [],
+});
 
 export function useDashboardContext() {
   return useContext(DashboardContext);
 }
 
-export function DashboardProvider({ children }) {
+export function DashboardProvider({ children }: PropsWithChildren<{}>) {
   const [actionSchemas] = useActions();
   let [events, setEvents] = useEvents();
   let [commands, setCommands] = useCommands();
   const [settings] = useSettings();
 
-  const [state, setState] = useState({
-    actionSchemas: actionSchemas,
+  const [state, setState] = useState<Dashboard>({
+    actionSchemas,
     mode: "command",
     actionModalVisible: false,
     commands,
@@ -26,11 +79,11 @@ export function DashboardProvider({ children }) {
     handlerIndex: 0,
     actionIndex: 0,
     errors: [],
+    handlers: [],
   });
 
   useEffect(() => {
     ipcRenderer?.on("onErrorsUpdate", (_event, error) => {
-      console.log("Here");
       console.log("Here is the error", error);
       setState((state) => ({ ...state, errors: [...state.errors, error] }));
     });
@@ -62,25 +115,18 @@ export function DashboardProvider({ children }) {
 
   const handlers =
     (state.mode === "event" ? state.events : state.commands) || [];
-  const handler = handlers[state.handlerIndex] || {};
+  const handler = handlers[state.handlerIndex];
   const actions = handler.actions || [];
-  const action = actions[state.actionIndex] || {};
+  const action = actions[state.actionIndex];
   const actionSchema =
     actionSchemas?.find(({ name }) => action.name === name) || {};
 
-  /**
-   * @param {string} mode
-   */
-  const updateMode = (mode) => {
+  const updateMode: UpdateMode = (mode) => {
     setState({ ...state, mode, actionIndex: 0, handlerIndex: 0 });
   };
 
-  /**
-   * Select new handler
-   * @param {number} index
-   */
-  const updateHandlerIndex = (index) => {
-    let newIndex;
+  const updateHandlerIndex: UpdateHandlerIndex = (index) => {
+    let newIndex: number;
 
     if (handlers[index]) {
       newIndex = index;
@@ -189,21 +235,12 @@ export function DashboardProvider({ children }) {
     setState({ ...state });
   };
 
-  /**
-   * Removes an action
-   * @param {number} index - Index of the action
-   * @return {undefined}
-   */
-  const removeAction = (index) => {
+  const removeAction: RemoveAction = (index) => {
     actions.splice(index, 1);
     setState({ ...state });
   };
 
-  /**
-   * Reorder action
-   * @param {number} to - Destination index
-   */
-  const reorderAction = (from, to) => {
+  const reorderAction: ReorderAction = (from, to) => {
     const [removed] = actions.splice(from, 1);
     actions.splice(to, 0, removed);
 
@@ -236,24 +273,12 @@ export function DashboardProvider({ children }) {
   return (
     <DashboardContext.Provider
       value={{
-        handlers,
-        handler,
-        actions: actions,
-        action,
         ...state,
-        updateMode,
-        hideActionModal,
-        showActionModal,
-        addHandler,
-        removeHandler,
-        updateHandler,
-        updateHandlerIndex,
-        addAction,
-        removeAction,
-        updateAction,
-        updateActionIndex,
         reorderAction,
-        actionSchema,
+        updateHandlerIndex,
+        updateMode,
+        removeAction,
+        addHandler,
       }}
     >
       {children}

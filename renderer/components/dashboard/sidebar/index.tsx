@@ -4,15 +4,8 @@ import SidebarItem from "./Item";
 import SidebarErrors from "./errors";
 
 export default function Sidebar({ selected }) {
-  const {
-    errors,
-    handlers,
-    commands,
-    events,
-    updateHandlerIndex,
-    handlerIndex,
-    addHandler,
-  } = useDashboardContext();
+  const { handlers, commands, events, updateHandlerIndex, addHandler } =
+    useDashboardContext();
 
   return (
     <>
@@ -27,8 +20,6 @@ export default function Sidebar({ selected }) {
             {handlers.map((d, i) => (
               <div key={d?.name + "-" + i}>
                 <div
-                  eventKey={"nav-link-" + d?.name + "-" + i}
-                  active={handlerIndex === i}
                   onClick={() => updateHandlerIndex(i)}
                   className="flex flex-row items-center justify-between mb-2"
                 >
@@ -42,7 +33,7 @@ export default function Sidebar({ selected }) {
             <select
               id="command"
               value={selected}
-              onChange={(e) => updateHandlerIndex(e.target.value)}
+              onChange={(e) => updateHandlerIndex(+e.target.value)}
             >
               {commands?.concat(events || []).map((c, i) => (
                 <option
@@ -60,9 +51,7 @@ export default function Sidebar({ selected }) {
           <SidebarBotControls />
         </div>
         <div className="flex-row flex-wrap gap-2 d-flex justify-content-between align-items-center">
-          <button onClick={() => addHandler()} variant="secondary">
-            Add Command
-          </button>
+          <button onClick={() => addHandler()}>Add Command</button>
         </div>
       </div>
     </>

@@ -6,7 +6,12 @@ import {
 } from "@heroicons/react/solid";
 import { useDashboardContext } from "../DashboardContext";
 
-export default function SidebarItem({ name, className }) {
+type Props = {
+  name: string;
+  className?: string;
+};
+
+export default function SidebarItem({ name, className }: Props) {
   const setMode = (mode) => () => updateMode(mode);
   const { updateMode, mode } = useDashboardContext();
   let Icon;
