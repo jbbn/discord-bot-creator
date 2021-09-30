@@ -1,6 +1,7 @@
 import SidebarBotControls from "./SidebarBotControls";
 import { useDashboardContext } from "../DashboardContext";
 import SidebarItem from "./Item";
+import SidebarErrors from "./errors";
 
 export default function Sidebar({ selected }) {
   const {
@@ -32,11 +33,7 @@ export default function Sidebar({ selected }) {
                   className="flex flex-row items-center justify-between mb-2"
                 >
                   <span>{d?.name}</span>
-                  {errors.filter((e) => e.handlerIndex === i).length ? (
-                    <div bg="danger" text="light">
-                      {errors.filter((e) => e.handlerIndex === i).length}
-                    </div>
-                  ) : null}
+                  <SidebarErrors />
                 </div>
               </div>
             ))}
